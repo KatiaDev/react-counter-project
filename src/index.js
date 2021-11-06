@@ -1,14 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import counterReducer from "./reducers/counterReducer";
 import App from "./App";
 import "./index.css";
-import CounterProvider from "./contexts/counterContext";
+
+const store = createStore(counterReducer);
 
 ReactDOM.render(
   <React.StrictMode>
-    <CounterProvider>
+    <Provider store={store}>
       <App />
-    </CounterProvider>
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );

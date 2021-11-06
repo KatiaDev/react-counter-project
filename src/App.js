@@ -1,21 +1,20 @@
-import React, { useContext } from "react";
-import { CounterContext } from "./contexts/counterContext";
+import React from "react";
+import { connect } from "react-redux";
+import { increment, decrement } from "./actions/counterActions";
 
-const App = () => {
-  const { state, dispatch } = useContext(CounterContext);
-
+const App = (props) => {
   const handleIncrease = () => {
-    dispatch({ type: "INCREMENT" });
+    props.increment();
   };
 
   const handleDecrease = () => {
-    dispatch({ type: "DECREMENT" });
+    props.decrement();
   };
 
   return (
     <div className="box">
       <h1>Counter</h1>
-      <p>Count: {state.count}</p>
+      <p>Count: {props.count}</p>
 
       <div>
         <button
@@ -37,4 +36,22 @@ const App = () => {
   );
 };
 
-export default App;
+// The mapStateToProps function specifies which portion of the
+// state tree this component needs to receive. In this case,
+// since our redux store is only storing the value of the count,
+// this component receives the whole state. In a more complex
+// redux application, though, it would receive only the relevant
+// parts it needs from the state object.
+
+const mapStateToProps = (state) => {
+  return {
+    count: state.count,
+  };
+};
+// The connect function is called in order to make this component aware
+// of the rest of the redux architecture. Without this, this component
+// is only a dumb React component. We pass in all of the functions that
+// are reliant on Redux, along with the component itself, so that Redux
+// makes itself known to this component.
+
+export default connect(mapStateToProps, { increment, decrement })(App);

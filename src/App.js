@@ -1,35 +1,52 @@
-import React from "react";
+import { useReducer } from "react";
 
-function App() {
+const initialState = { count: 0 };
+
+const counterReducer = (state, action) => {
+  switch (action.type) {
+    case "INCREMENT":
+      return { ...state, count: state.count + 1 };
+    case "DECREMENT":
+      return { ...state, count: state.count - 1 };
+    default:
+      return state;
+  }
+};
+
+const App = () => {
+  const [state, dispatch] = useReducer(counterReducer, initialState);
+
+  const handleIncrease = () => {
+    dispatch({ type: "INCREMENT" });
+  };
+
+  const handleDecrease = () => {
+    dispatch({ type: "DECREMENT" });
+  };
+
   return (
-    <div className="App">
-      <div className="calculator">
-        <div className="container">
-          <div className="display">
-            <span className="cursor" />
-          </div>
-          <button className="btn">AC</button>
-          <button className="btn">C</button>
-          <button className="btn">x</button>
-          <button className="btn">/</button>
-          <button className="btn">7</button>
-          <button className="btn">8</button>
-          <button className="btn">9</button>
-          <button className="btn">+</button>
-          <button className="btn">4</button>
-          <button className="btn">5</button>
-          <button className="btn">6</button>
-          <button className="btn">-</button>
-          <button className="btn">1</button>
-          <button className="btn">2</button>
-          <button className="btn">3</button>
-          <button className="btn zero">0</button>
-          <button className="btn">.</button>
-          <button className="btn eq">=</button>
-        </div>
+    <div className="box">
+      <h1>Counter</h1>
+      <p>Count: {state.count}</p>
+
+      <div>
+        <button
+          type="button"
+          onClick={handleIncrease}
+          className="btn-increment"
+        >
+          +
+        </button>
+        <button
+          type="button"
+          onClick={handleDecrease}
+          className="btn-decrement"
+        >
+          -
+        </button>
       </div>
     </div>
   );
-}
+};
 
 export default App;
